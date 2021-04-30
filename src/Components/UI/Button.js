@@ -2,14 +2,11 @@ import React from 'react'
 import classes from '../UI/Button.module.css'
 
 const Button= (props) =>{
-    const onClickHandler = () => {
-        props.error()
-    }
     return (
         <button
             className={classes.button}
             type = {props.type || 'button'}
-            onClick = {onClickHandler}
+            onClick = {props.onError}
         >
             {props.children}
         </button>

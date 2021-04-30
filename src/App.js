@@ -1,6 +1,6 @@
 import './App.css';
 import AddUser from './Components/User/AddUser'
-import React, {useState} from 'react'
+import React, {useState, Fragment} from 'react'
 import ShowUser from './Components/User/ShowUser'
 let dummy_data = []
 
@@ -12,10 +12,10 @@ function App() {
     })
   }
   return (
-    <div className="App">
+    <Fragment className="App">
       <AddUser addUser={onAddUser}></AddUser>
       {data.length!==0 && <ShowUser users={data}></ShowUser>}
-    </div>
+    </Fragment>
   );
 }
 

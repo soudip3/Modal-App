@@ -1,62 +1,65 @@
-import React,{useState} from 'react'
+import React,{useState, useRef} from 'react'
 import Card from '../UI/Card'
 import classes from './AddUser.module.css'
 import Button from '../UI/Button'
 import ErrorModal from '../UI/ErrorModal'
+import Wrapper from '../Helpers/Wrapper'
 const AddUser = (props) =>{
-    const [username, setUsername] = useState('')
-    const [age, setAge] = useState('')
+    const nameInputRef = useRef()
+    const ageInputRef = useRef()
     const [error, setError] = useState()
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        if(age<0){
+        const enterName = nameInputRef.current.value
+        const enterAge = ageInputRef.current.value
+        if(enterAge<0){
             setError({
                 header : "Invalid Input",
                 content : "Please put correct age!!!"
             })
 
         }
-        else if(username.length===0 || age.length === 0){
+        else if(enterName.trim().length===0 || enterAge.length === 0){
             setError({
                 header : "Invalid Input",
                 content : "Please enter valid username and age!!!"
             })
         }
         else{
-            setUsername(username)
-            setAge(age)
             const data = {
-                username :username,
-                age :age,
+                username :enterName,
+                age :enterAge,
                 id: Math.random()
             }
             props.addUser(data)
-            setUsername('')
-            setAge('')
+            nameInputRef.current.value=''
+            ageInputRef.current.value=''
         }
-    }
-    const changeUsername = (e) => {
-        setUsername(e.target.value)
-    }
-    const changeAge = (e) => {
-        setAge(e.target.value)
     }
     const changeError = () =>{
         setError()
     }
     return (
-        <div>
+        <Wrapper>
             {error && <ErrorModal onError = {changeError} content={error.content} header={error.header}></ErrorModal>}
             <Card className={classes.card}>
                 <form onSubmit={onSubmitHandler}> 
                     <label htmlFor="Username">Username</label>
-                    <input id="username" type="text" placeholder="Username" value={username} onChange={changeUsername}></input>
+                        <input id="username" 
+                        type="text" 
+                        placeholder="Username" 
+                        ref={nameInputRef}>
+                    </input>
                     <label htmlFor="Age">Age</label>
-                    <input id="age" type="number" placeholder="Age" value={age} onChange={changeAge}></input>
+                    <input id="age" 
+                        type="number" 
+                        placeholder="Age" 
+                        ref={ageInputRef}>
+                    </input>
                     <Button type="submit" error={changeError}>Add User</Button>
                 </form>
             </Card>
-        </div>
+        </Wrapper>
     )
 }
 
