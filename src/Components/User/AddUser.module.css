@@ -28,3 +28,10 @@
 .card button {
     display:block;
 }
+
+@media (min-width: 768px) {
+    .card {
+      left: calc(50% - 20rem);
+      width: 40rem;
+    }
+  }
